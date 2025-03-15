@@ -1,8 +1,20 @@
-### OPEN PLATFORM FOR ULTRASOUND LOCALIZATION MICROSCOPY: PERFORMANCE ASSESSMENT OF LOCALIZATION ALGORITHMS
+### ONGOING RESEARCH FOR PINN improved tracking algorithm for Microbubbles
 
-[![Generic badge](https://img.shields.io/badge/NBME-10.1038/s41551021008248-red.svg)](https://doi.org/10.1038/s41551-021-00824-8)
+[![Generic badge](https://img.shields.io/badge/NBME-10.1038/s41551021008248-red.svg)](https://doi.org/10.1038/s41551-021-00824-8
+        
+        
+        
+        )
 ![License: CC BY-NC-SA 4.0](https://img.shields.io/badge/License-CC%20BY--NC--SA%204.0-lightgrey.svg)
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.4343435.svg)](https://doi.org/10.5281/zenodo.4343435)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.4343435.svg
+        
+        
+        
+        )](https://doi.org/10.5281/zenodo.4343435
+        
+        
+        
+        )
 
 ###### DATE 2025.2.12-
 
@@ -22,7 +34,11 @@ This research presents a novel approach to improving tracking for super-resoluti
 Details of the code in the article by Heiles, Chavignon, Hingot, Lopez, Teston and Couture.
 [*Performance benchmarking of microbubble-localization algorithms for ultrasound localization microscopy*, Nature Biomedical Engineering, 2022 (10.1038/s41551-021-00824-8)](https://www.nature.com/articles/s41551-021-00824-8).
 
-General description of super-resolution in: Couture et al., [*Ultrasound localization microscopy and super-resolution: A state of the art*, IEEE UFFC 2018](https://doi.org/10.1109/TUFFC.2018.2850811).
+General description of super-resolution in: Couture et al., [*Ultrasound localization microscopy and super-resolution: A state of the art*, IEEE UFFC 2018](https://doi.org/10.1109/TUFFC.2018.2850811
+        
+        )
+        
+        .
 
 #### ABSTRACT
 
@@ -32,7 +48,13 @@ This article provides all materials and post-processing scripts and functions.
 
 #### RELATED DATASET
 
-Simulated and in vivo datasets are available on Zenodo [10.5281/zenodo.4343435](https://doi.org/10.5281/zenodo.4343435).
+Simulated and in vivo datasets are available on Zenodo [10.5281/zenodo.4343435
+        
+        ](https://doi.org/10.5281/zenodo.4343435
+        
+        )
+        
+        .
 
 #### 1. PATH AND LOCATIONS
 
