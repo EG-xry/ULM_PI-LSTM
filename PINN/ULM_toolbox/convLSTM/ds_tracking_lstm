@@ -1,0 +1,65 @@
+import torch
+import torch.nn as nn
+import numpy as np
+
+class PhysicsInformedNN(nn.Module):
+    """物理信息神经网络模型，结合数据驱动和物理方程约束[^2][^14]"""
+    def __init__(self, layers):
+        super(PhysicsInformedNN, self).__init__()
+        self.linear_layers = nn.ModuleList()  # 定义全连接层集合[^9]
+        for i in range(len(layers)-1):
+            self.linear_layers.append(nn.Linear(layers[i], layers[i+1]))  # 构造神经网络层[^2]
+
+    def forward(self, x, y, t):
+        """前向传播：输入坐标(x,y,t)，输出(u, v, p, phi)预测值[^14]"""
+        inputs = torch.cat([x, y, t], dim=1)  # 拼接时空坐标作为输入[^8]
+        for layer in self.linear_layers[:-1]:
+            inputs = torch.tanh(layer(inputs))  # 使用tanh激活函数[^9]
+        outputs = self.linear_layers[-1](inputs)  # 最后一层无激活[^14]
+        return outputs.split(1, dim=1)  # 拆分为不同物理量输出[^14]
+
+def train_model():
+    # 参数初始化
+    layers = [3, 20, 20, 20, 4]  # 网络层结构[输入维度3, 隐藏层x3, 输出维度4][^14]
+    model = PhysicsInformedNN(layers)  # 实例化模型[^2]
+    optimizer = torch.optim.Adam(model.parameters(), lr=1e-3)  # Adam优化器[^9]
+    
+    # 数据准备 (示例数据需替换为真实数据)
+    coords = torch.rand((1000, 3), requires_grad=True)  # 生成时空坐标(x,y,t)[^14]
+    u_true = torch.rand((1000, 1))  # 替换为实际速度场数据
+    
+    # 训练循环
+    for epoch in range(1000):
+        optimizer.zero_grad()
+        u_pred, v_pred, p_pred, phi_pred = model(*coords.split(1, dim=1))
+        
+        # 计算数据匹配损失
+        data_loss = torch.mean((u_pred - u_true)**2)
+        
+        # 计算PDE残差（修正梯度计算）
+        # 创建梯度计算所需的虚拟梯度（grad_outputs）
+        grad_outputs = torch.ones_like(p_pred)
+        p_grad = torch.autograd.grad(p_pred, coords, 
+                                   grad_outputs=grad_outputs,  # 添加grad_outputs参数
+                                   create_graph=True)[0]
+        poisson_res = torch.mean(p_grad[:,0]**2 + p_grad[:,1]**2)
+        
+        total_loss = data_loss + poisson_res
+        total_loss.backward()  # 现在可以正确反向传播
+        optimizer.step()
+        
+        if epoch % 100 == 0:
+            print(f'Epoch {epoch}, Total Loss: {total_loss.item():.4e}')
+
+    return model
+
+if __name__ == "__main__":
+    # 添加主程序入口
+    trained_model = train_model()
+    print("模型训练完成！")
+    
+    # 示例推理（可替换实际坐标数据）
+    test_coords = torch.tensor([[0.5, 0.5, 0.1]], dtype=torch.float32)
+    with torch.no_grad():
+        u, v, p, phi = trained_model(*test_coords.split(1, dim=1))
+        print(f"预测结果: u={u.item():.4f}, v={v.item():.4f}, p={p.item():.4f}, phi={phi.item():.4f}")
